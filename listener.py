@@ -19,10 +19,8 @@ def get_games(user):
 rep = get_games(player)
 curr_games = rep["currentPageResults"]
 count = len(curr_games)
+game_dict = {game['id']: game['timestamp'] for game in curr_games}
 
-# if count > 0:
-#    notify.notify_games(count)
-
-conn = database.opendb()
-with conn:
-    mgr = database.Manager(conn)
+stats = database.new_games(game_dict)
+if stats.new > 0:
+    notify.notify_games(stats.new)

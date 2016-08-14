@@ -1,24 +1,37 @@
 # -*- coding: utf-8 -*-
 
 import common
-import sqlite3
 import xdg.BaseDirectory
 import os.path
+import json
 
 
 __datadir = xdg.BaseDirectory.save_data_path(common.APPNAME)
-__dbname = "games.db"
-__dbpath = os.path.join(__datadir, __dbname)
+__jsonname = "games.json"
+__path = os.path.join(__datadir, __jsonname)
 
 
-def opendb():
-    return sqlite3.connect(__dbpath)
+class GameDelta:
+    def __init__(self, new, total):
+        self.new = new
+        "New games awaiting move"
+        self.total = total
+        "Total games awaiting move"
 
 
-class Manager:
+def new_games(games):
+    """Record new games in persistent storage and return GameDelta
+    informing about the new games"""
+    new_games_cnt = 0
+    with open(__path) as jsonfile:
+        old_games = json.load(jsonfile)
 
-    def __init__(self, db):
-        self.db = db
+        for (game_id, new_timestamp) in games.items():
+            old_timestamp = old_games[game_id]
+            if new_timestamp != old_timestamp:  # something has changed
+                new_games_cnt += 1
 
-    def is_new_game(id, timestamp):
-        pass
+        old_games.update(games)
+
+        json.dump(old_games.update(games), jsonfile)
+        return GameDelta(new_games_cnt, len(games))  # TODO really do something
