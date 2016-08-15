@@ -34,4 +34,4 @@ def new_games(games):
         old_games.update(games)
 
         json.dump(old_games.update(games), jsonfile)
-        return GameDelta(new_games_cnt, len(games))  # TODO really do something
+        return GameDelta(new_games_cnt, len(games))
