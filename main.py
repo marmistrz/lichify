@@ -4,6 +4,7 @@
 import requests
 import notify
 import database
+import sys
 
 player = "marmistrz"
 __API_URL = 'https://en.lichess.org/api/user/{}/games?playing=1'
@@ -24,3 +25,6 @@ game_dict = {game['id']: game['timestamp'] for game in curr_games}
 stats = database.new_games(game_dict)
 if stats.new > 0:
     notify.notify_games(stats.new)
+else:
+    print("We have {} games but no new ones...".format(stats.total),
+          file=sys.stderr)

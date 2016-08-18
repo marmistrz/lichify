@@ -1,17 +1,20 @@
 # -*- coding: utf-8 -*-
 "Notifications for new games"
 
+import notify2
 import common
-import gi
-gi.require_version('Notify', '0.7')  # noqa: E402
-from gi.repository import Notify
+
+
+def show_notification(msg):
+    notify2.init(common.APPNAME)  # REVIEW maybe call init once?
+    notification = notify2.Notification(
+        common.APPNAME,
+        msg,
+        "dialog-information")
+    notification.show()
 
 
 def notify_games(count):
     "Show a notification in a cross-platform way"
     msg = "You have {} games awaiting a move".format(count)
-    Notify.init(common.APPNAME_HUMAN)
-    Hello = Notify.Notification.new(common.APPNAME_HUMAN,
-                                    msg,
-                                    "dialog-information")
-    Hello.show()
+    show_notification(msg)

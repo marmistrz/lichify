@@ -23,15 +23,21 @@ def new_games(games):
     """Record new games in persistent storage and return GameDelta
     informing about the new games"""
     new_games_cnt = 0
-    with open(__path) as jsonfile:
-        old_games = json.load(jsonfile)
+    try:
+        with open(__path) as jsonfile:
+            old_games = json.load(jsonfile)
+    except FileNotFoundError:
+        old_games = dict()
 
-        for (game_id, new_timestamp) in games.items():
-            old_timestamp = old_games[game_id]
-            if new_timestamp != old_timestamp:  # something has changed
-                new_games_cnt += 1
+    for (game_id, new_timestamp) in games.items():
+        # None is always different from new_timestamp; get default to None
+        old_timestamp = old_games.get(game_id)
+        if new_timestamp != old_timestamp:  # something has changed
+            new_games_cnt += 1
 
-        old_games.update(games)
+    old_games.update(games)
 
-        json.dump(old_games.update(games), jsonfile)
-        return GameDelta(new_games_cnt, len(games))
+    with open(__path, 'w') as jsonfile:
+        json.dump(old_games, jsonfile)
+
+    return GameDelta(new_games_cnt, len(games))
