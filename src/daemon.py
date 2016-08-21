@@ -5,15 +5,17 @@
 
 import time
 import common
-import sys
+import logging
 import settings
 import client
 
+logger = logging.getLogger(__name__)
+logger.setLevel(settings.LOGGING_LEVEL)
+
 startmsg = "Starting the {} daemon...".format(common.APPNAME_HUMAN)
 
-
-print(startmsg, file=sys.stderr)
+logger.info(startmsg)
 while True:
     client.run()
-    print("Sleeping for {} minutes".format(settings.CHECK_INTERVAL))
+    logger.info("Sleeping for {} minutes".format(settings.CHECK_INTERVAL))
     time.sleep(settings.CHECK_INTERVAL * 60)
