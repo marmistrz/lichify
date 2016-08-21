@@ -6,15 +6,16 @@ import common
 
 
 def show_notification(msg):
-    notify2.init(common.APPNAME)  # REVIEW maybe call init once?
+    "a notify2 wrapper"
+    notify2.init(common.APPNAME_HUMAN)  # REVIEW maybe call init once?
     notification = notify2.Notification(
-        common.APPNAME,
+        common.APPNAME_HUMAN,
         msg,
-        "dialog-information")
+        "lichess")
     notification.show()
 
 
 def notify_games(count):
-    "Show a notification in a cross-platform way"
+    "Show a notification about new games"
     msg = "You have {} games awaiting a move".format(count)
     show_notification(msg)
