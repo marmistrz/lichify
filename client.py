@@ -17,14 +17,18 @@ def get_games(user):
     return reply.json()
 
 
-rep = get_games(player)
-curr_games = rep["currentPageResults"]
-count = len(curr_games)
-game_dict = {game['id']: game['timestamp'] for game in curr_games}
+def run():
+    "Download the data from the API and show a notification (if needed)"
+    rep = get_games(player)
+    curr_games = rep["currentPageResults"]
+    game_dict = {game['id']: game['timestamp'] for game in curr_games}
 
-stats = database.new_games(game_dict)
-if stats.new > 0:
-    notify.notify_games(stats.new)
-else:
-    print("We have {} games but no new ones...".format(stats.total),
-          file=sys.stderr)
+    stats = database.new_games(game_dict)
+    if stats.new > 0:
+        notify.notify_games(stats.new)
+    else:
+        print("We have {} games but no new ones...".format(stats.total),
+              file=sys.stderr)
+
+if __name__ == '__main__':  # do a single request
+    run()
