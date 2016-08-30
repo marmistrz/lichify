@@ -1,5 +1,8 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
+"The daemon checking for new games periodically"
+
+# FIXME crashes if no network connection
 
 import time
 import common
