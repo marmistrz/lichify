@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 "A simple listener notifying about new lichess.org games"
+# FIXME checks only for first 10 games
 
 import requests
 import notify
@@ -31,7 +32,7 @@ def run():
 
     rep = get_games(settings.USERNAME)
     curr_games = rep["currentPageResults"]
-    game_dict = {game['id']: game['timestamp'] for game in curr_games}
+    game_dict = {game['id']: game['lastMoveAt'] for game in curr_games}
 
     stats = database.new_games(game_dict)
     if stats.new > 0:
