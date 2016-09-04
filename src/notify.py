@@ -15,7 +15,7 @@ def show_notification(msg):
     notification.show()
 
 
-def notify_games(count):
+def notify_games(count, total):
     "Show a notification about new games"
-    msg = "You have {} games awaiting a move".format(count)
-    show_notification(msg)
+    msg = "You have {} new games awaiting a move, {} total"
+    show_notification(msg.format(count, total))

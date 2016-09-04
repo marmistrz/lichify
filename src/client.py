@@ -36,7 +36,7 @@ def run():
 
     stats = database.new_games(game_dict)
     if stats.new > 0:
-        notify.notify_games(stats.new)
+        notify.notify_games(stats.new, stats.total)
     else:
         logger.info("We have {} games but no new ones...".format(stats.total))
 
