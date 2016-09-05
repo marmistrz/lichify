@@ -15,11 +15,18 @@ logger = logging.getLogger(__name__)
 logger.setLevel(settings.LOGGING_LEVEL)
 
 
+class ConnectionError(Exception):
+    pass
+
+
 def get_games(user):
     "Get the list of all games for a user"
-    url = __API_URL.format(user)
-    reply = requests.get(url)
-    return reply.json()
+    try:
+        url = __API_URL.format(user)
+        reply = requests.get(url)
+        return reply.json()
+    except requests.exceptions.ConnectionError:
+        raise ConnectionError
 
 
 def run():
