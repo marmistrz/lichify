@@ -12,7 +12,7 @@ import client
 
 startmsg = "Starting the {} daemon...".format(common.APPNAME_HUMAN)
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger(common.APPNAME)
 logger.setLevel(settings.LOGGING_LEVEL)
 
 logging.basicConfig()

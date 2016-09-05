@@ -9,10 +9,10 @@ import database
 import settings
 import logging
 import sys
+import common
 
 __API_URL = 'https://en.lichess.org/api/user/{}/games?playing=1'
-logger = logging.getLogger(__name__)
-logger.setLevel(settings.LOGGING_LEVEL)
+logger = logging.getLogger(common.APPNAME)
 
 
 class ConnectionError(Exception):
@@ -48,5 +48,6 @@ def run():
         logger.info("We have {} games but no new ones...".format(stats.total))
 
 if __name__ == '__main__':  # do a single request
+    logger.setLevel(settings.LOGGING_LEVEL)
     logging.basicConfig()
     run()
