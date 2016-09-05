@@ -1,6 +1,6 @@
 # Lichify
 
-Current version: 0.1
+Current version: 0.1.1
 
 A simple daemon to notify about new lichess.org games.
 
