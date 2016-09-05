@@ -8,6 +8,8 @@ import logging
 import settings
 import client
 
+# TODO logging to a file
+
 startmsg = "Starting the {} daemon...".format(common.APPNAME_HUMAN)
 
 logger = logging.getLogger(__name__)
