@@ -38,6 +38,8 @@ def run():
         sys.exit(1)
 
     rep = get_games(settings.USERNAME)
+    logger.debug("Received reply from API:")
+    logger.debug(rep)
     curr_games = rep["currentPageResults"]
     game_dict = {game['id']: game['lastMoveAt'] for game in curr_games}
 
