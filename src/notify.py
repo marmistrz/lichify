@@ -15,7 +15,12 @@ def show_notification(msg):
     notification.show()
 
 
-def notify_games(count, total):
+def notify_games(count, total, now_playing):
     "Show a notification about new games"
-    msg = "You have {} new games awaiting a move, {} total"
-    show_notification(msg.format(count, total))
+    msg = (
+        "Chess games await your move: {new} new, {total} total\n"
+        "You're currently have {now_playing} games in progress."
+    )
+    show_notification(
+        msg.format(total=total, new=count, now_playing=now_playing)
+    )

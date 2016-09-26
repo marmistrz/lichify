@@ -29,6 +29,14 @@ def get_games(user):
         raise ConnectionError
 
 
+def awaiting_move(game):
+    """Check if the game is awaiting the move of settings.USERNAME
+    game is a dict from the list given by the API"""
+    color = game['color']
+    player_name = game['players'][color]['userId']
+    return player_name == settings.USERNAME
+
+
 def run():
     "Download the data from the API and show a notification (if needed)"
 
@@ -40,12 +48,18 @@ def run():
     rep = get_games(settings.USERNAME)
     logger.debug("Received reply from API:")
     logger.debug(rep)
-    curr_games = rep["currentPageResults"]
-    game_dict = {game['id']: game['lastMoveAt'] for game in curr_games}
+    curr_games = rep['currentPageResults']
+    curr_num = len(curr_games)
+
+    game_dict = {
+        game['id']: game['lastMoveAt']
+        for game in curr_games
+        if awaiting_move(game)
+    }
 
     stats = database.new_games(game_dict)
     if stats.new > 0:
-        notify.notify_games(stats.new, stats.total)
+        notify.notify_games(stats.new, stats.total, curr_num)
     else:
         logger.info("We have {} games but no new ones...".format(stats.total))
 
