@@ -13,4 +13,4 @@ RETRY_INTERVAL = 1
 
 """The logging level for all loggers, consult
 the Python documentation for more information"""
-LOGGING_LEVEL = logging.INFO
+LOGGING_LEVEL = logging.DEBUG
